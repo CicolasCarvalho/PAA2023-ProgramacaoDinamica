@@ -34,13 +34,17 @@ const memo: number[][][][] = [];
 function gravar_musica_dinamico(
     musicas: number[], cartuchos: number[], n: number, k: number
 ) {
-    // se não há mais musicas ou não há mais cartuchos
+    // se não há mais musicas ou não há cartuchos
     if (n < 0 || k <= 0) return 0;
     
-    let valor_memo = memo[n][cartuchos[0]??0][cartuchos[1]??0][cartuchos[2]??0];    
-    if (valor_memo != -1)
-        return valor_memo;
+    let x = cartuchos[0]??0;    // caso não esteja definido use 0 para x
+    let y = cartuchos[1]??0;    // caso não esteja definido use 0 para y
+    let z = cartuchos[2]??0;    // caso não esteja definido use 0 para z
+    if (memo[n][x][y][z] != -1)
+        return memo[n][x][y][z];
 
+    // se não há memo registrado
+    
     // resultado da maior recursão
     let resultado = 0;
 
@@ -58,12 +62,12 @@ function gravar_musica_dinamico(
         );
     }
 
-    memo[n][cartuchos[0]??0][cartuchos[1]??0][cartuchos[2]??0] = Math.max(
-        gravar_musica_dinamico(musicas, cartuchos, n - 1, k), // nao gravar a musica atual
-        resultado                                    // gravar a musica atual
+    memo[n][x][y][z] = Math.max(
+        gravar_musica_dinamico(musicas, cartuchos, n - 1, k),   // nao gravar a musica atual
+        resultado                                               // gravar a musica atual
     );
 
-    return memo[n][cartuchos[0]??0][cartuchos[1]??0][cartuchos[2]??0];
+    return memo[n][x][y][z];
 }
 
 function gravar_musica_guloso(

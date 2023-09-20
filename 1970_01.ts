@@ -1,5 +1,9 @@
 #!usr/bin/env deno run
 
+//@ts-ignore
+import * as fs from 'node:fs';
+let input = fs.readFileSync("/dev/stdin", "utf8");
+
 function gravar_musica(
     musicas: number[], cartuchos: number[], n: number, k: number
 ) {
@@ -73,15 +77,7 @@ function gravar_musica_dinamico(
 function gravar_musica_guloso(
     musicas: number[], cartuchos: number[], n: number, k: number
 ) {
-    // se musicas nao esta ordenado, ordena
-    if (!esta_ordenado(musicas))
-        musicas.sort(crescente);
-
-    // se cartuchos nao esta ordenado, ordena
-    if (!esta_ordenado(cartuchos))
-        cartuchos.sort(crescente);
-
-    if (n < 0)
+    if (n < 0) 
         return 0;
 
     let i = k;
@@ -95,6 +91,13 @@ function gravar_musica_guloso(
     let novos_cartuchos = [...cartuchos];
     novos_cartuchos[i] -= musicas[n];
 
+    while (i > 0 && novos_cartuchos[i] < novos_cartuchos[i - 1]) {
+        let aux = novos_cartuchos[i];
+        novos_cartuchos[i] = novos_cartuchos[i - 1];
+        novos_cartuchos[i - 1] = aux;
+        i--;
+    }
+
     return musicas[n] + gravar_musica_guloso(
         musicas, novos_cartuchos, n - 1, k
     );
@@ -102,28 +105,37 @@ function gravar_musica_guloso(
 
 // main
 (() => {
-    let musicas = [
-        7, 3, 3, 2, 4, 4, 2, 3
-    ];
+    // let musicas = [7, 3, 3, 4, 4, 3, 2, 2]
+    // let cartuchos = [9, 8, 9];
+    // let n = musicas.length - 1;
+    // let k = cartuchos.length;
 
-    let cartuchos = [
-        9, 8, 9
-    ];
-    const n = musicas.length - 1;
-    const k = cartuchos.length;
+    let lines: string[] = input.split("\n");
 
+    let str = lines.shift()??"0 0";
+    let [n, k] = str.split(" ").map((val) => +val);
+
+    str = lines.shift()??"";
+    const musicas: number[] = str?.split(" ").map((val) => +val);
+
+    str = lines.shift()??"";
+    const cartuchos: number[] = str?.split(" ").map((val) => +val);
+    
+    musicas.sort(crescente);
+    cartuchos.sort(crescente);
+    
     console.time('guloso');
     console.log(gravar_musica_guloso(musicas, cartuchos, n, k));
     console.timeEnd('guloso');
 
-    console.time('recursivo');
-    console.log(gravar_musica(musicas, cartuchos, n, k));
-    console.timeEnd('recursivo');
+    // console.time('recursivo');
+    // console.log(gravar_musica(musicas, cartuchos, n, k));
+    // console.timeEnd('recursivo');
 
-    inicializar_memo(cartuchos, n, k);
-    console.time('dinamico');
-    console.log(gravar_musica_dinamico(musicas, cartuchos, n, k));
-    console.timeEnd('dinamico');
+    // inicializar_memo(cartuchos, n, k);
+    // console.time('dinamico');
+    // console.log(gravar_musica_dinamico(musicas, cartuchos, n, k));
+    // console.timeEnd('dinamico');
 })()
 
 // --funcoes auxiliares---------------------------------------------------------

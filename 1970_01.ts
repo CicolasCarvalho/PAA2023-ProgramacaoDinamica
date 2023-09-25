@@ -5,6 +5,11 @@
 import * as fs from 'node:fs';
 let input = fs.readFileSync("/dev/stdin", "utf8");
 */
+//@ts-ignore
+let input = 
+`8 3
+7 3 3 2 4 4 2 3
+9 8 9`;
 
 function gravar_musica(
     musicas: number[], cartuchos: number[], n: number, k: number
@@ -108,12 +113,6 @@ function gravar_musica_guloso(
 
 // main
 (() => {
-    let musicas = [7, 3, 3, 4, 4, 3, 2, 2]
-    let cartuchos = [9, 8, 9];
-    let n = musicas.length - 1;
-    let k = cartuchos.length;
-
-    /*! beecrowd
     let lines: string[] = input.split("\n");
 
     let str = lines.shift()??"0 0";
@@ -124,7 +123,6 @@ function gravar_musica_guloso(
 
     str = lines.shift()??"";
     const cartuchos: number[] = str?.split(" ").map((val) => +val);
-    */
 
     musicas.sort(crescente);
     cartuchos.sort(crescente);

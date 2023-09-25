@@ -5,6 +5,7 @@
 import * as fs from 'node:fs';
 let input = fs.readFileSync("/dev/stdin", "utf8");
 */
+//@ts-ignore
 let input =
 `6
 10

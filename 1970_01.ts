@@ -1,12 +1,14 @@
 #!usr/bin/env deno run
 
+/*! beecrowd
 //@ts-ignore
 import * as fs from 'node:fs';
 let input = fs.readFileSync("/dev/stdin", "utf8");
+*/
 
 function gravar_musica(
     musicas: number[], cartuchos: number[], n: number, k: number
-) {
+): number {
     // se não há mais musicas ou não há mais cartuchos
     if (n < 0 || k <= 0) return 0;
 
@@ -33,6 +35,7 @@ function gravar_musica(
     );
 }
 
+//@ts-ignore
 const memo: number[][][][] = [];
 
 function gravar_musica_dinamico(
@@ -40,7 +43,7 @@ function gravar_musica_dinamico(
 ) {
     // se não há mais musicas ou não há cartuchos
     if (n < 0 || k <= 0) return 0;
-    
+
     let x = cartuchos[0]??0;    // caso não esteja definido use 0 para x
     let y = cartuchos[1]??0;    // caso não esteja definido use 0 para y
     let z = cartuchos[2]??0;    // caso não esteja definido use 0 para z
@@ -48,7 +51,7 @@ function gravar_musica_dinamico(
         return memo[n][x][y][z];
 
     // se não há memo registrado
-    
+
     // resultado da maior recursão
     let resultado = 0;
 
@@ -76,8 +79,8 @@ function gravar_musica_dinamico(
 
 function gravar_musica_guloso(
     musicas: number[], cartuchos: number[], n: number, k: number
-) {
-    if (n < 0) 
+): number {
+    if (n < 0)
         return 0;
 
     let i = k;
@@ -105,11 +108,12 @@ function gravar_musica_guloso(
 
 // main
 (() => {
-    // let musicas = [7, 3, 3, 4, 4, 3, 2, 2]
-    // let cartuchos = [9, 8, 9];
-    // let n = musicas.length - 1;
-    // let k = cartuchos.length;
+    let musicas = [7, 3, 3, 4, 4, 3, 2, 2]
+    let cartuchos = [9, 8, 9];
+    let n = musicas.length - 1;
+    let k = cartuchos.length;
 
+    /*! beecrowd
     let lines: string[] = input.split("\n");
 
     let str = lines.shift()??"0 0";
@@ -120,22 +124,23 @@ function gravar_musica_guloso(
 
     str = lines.shift()??"";
     const cartuchos: number[] = str?.split(" ").map((val) => +val);
-    
+    */
+
     musicas.sort(crescente);
     cartuchos.sort(crescente);
-    
+
     console.time('guloso');
     console.log(gravar_musica_guloso(musicas, cartuchos, n, k));
     console.timeEnd('guloso');
 
-    // console.time('recursivo');
-    // console.log(gravar_musica(musicas, cartuchos, n, k));
-    // console.timeEnd('recursivo');
+    console.time('recursivo');
+    console.log(gravar_musica(musicas, cartuchos, n, k));
+    console.timeEnd('recursivo');
 
-    // inicializar_memo(cartuchos, n, k);
-    // console.time('dinamico');
-    // console.log(gravar_musica_dinamico(musicas, cartuchos, n, k));
-    // console.timeEnd('dinamico');
+    inicializar_memo(cartuchos, n, k);
+    console.time('dinamico');
+    console.log(gravar_musica_dinamico(musicas, cartuchos, n, k));
+    console.timeEnd('dinamico');
 })()
 
 // --funcoes auxiliares---------------------------------------------------------
@@ -150,6 +155,7 @@ function esta_ordenado(arr: number[]) {
     return true;
 }
 
+//@ts-ignore
 function inicializar_memo(cartuchos: number[], n: number, k: number) {
     // gerar todos os memos
     // lembrado que k sempre é <= 3
@@ -157,6 +163,7 @@ function inicializar_memo(cartuchos: number[], n: number, k: number) {
         memo[x] = [];
 
         if (k == 0) {
+            //@ts-ignore
             memo[x][0] = [];
             memo[x][0][0] = [];
             memo[x][0][0][0] = -1;
@@ -164,6 +171,7 @@ function inicializar_memo(cartuchos: number[], n: number, k: number) {
         }
 
         for (let y = 0; y <= cartuchos[0]; y++) {
+            //@ts-ignore
             memo[x][y] = [];
 
             if (k == 1) {

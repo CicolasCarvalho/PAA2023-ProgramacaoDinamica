@@ -23,3 +23,9 @@ javascript, para isso a ferramenta [deno](https://deno.com) foi usada, pois
 possui um interpretador nativo de typescript.
 
 obs.: o código também pode ser transpilado para js com [tsc](https://www.typescriptlang.org/) e interpretado com [nodejs](https://nodejs.org)
+
+### Beecrowd
+
+Algumas implementações tiveram que ser mudadas para funcionar no beecrowd,
+no código comentários do tipo `//! beecrowd` significam que são esses tipos
+de modificações.
